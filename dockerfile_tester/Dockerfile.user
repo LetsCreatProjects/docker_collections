@@ -1,0 +1,26 @@
+# ---creating container with Dockerfile that creates custome user as default entery on Ubuntu 
+FROM ubuntu:latest
+
+RUN apt-get update
+RUN apt-get install sudo
+RUN apt-get install nano
+RUN useradd -ms /bin/bash newuser
+RUN echo "newuser ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
+# RUN sh -c 'echo "newuser ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/newuser' && sudo chmod 440 /etc/sudoers.d/newuser
+
+# # # RUN usermod -aG sudo newuser
+
+USER newuser
+WORKDIR /home/newuser
+
+RUN sudo apt-get update && sudo apt install nano  && sudo apt-get install -y python3 python3-pip
+# RUN sudo pip install --upgrade pip
+
+COPY requirements.txt requirements.txt
+RUN sudo pip install -r requirements.txt
+
+
+# # ---To create image and container from image, run those commands:
+# # sudo docker build -t ubuntu-user -f ./Dockerfile.user .
+# # sudo docker run -td --name ubuntu_container ubuntu-user 
+# # sudo docker exec -it ubuntu_container bash  

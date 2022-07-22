@@ -1,0 +1,220 @@
+# FROM python:3.8.3-alpine
+
+# RUN pip install --upgrade pip
+
+# RUN adduser -D myuser
+# USER myuser
+# WORKDIR /home/myuser
+
+# COPY --chown=myuser:myuser requirements.txt requirements.txt
+# RUN pip install --user -r requirements.txt
+
+# ENV PATH="/home/myuser/.local/bin:${PATH}"
+
+# COPY --chown=myuser:myuser . .
+
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+# --------------------------------works, creates virtual env
+# # temp stage
+# FROM python:3.9-slim as builder
+
+# WORKDIR /app
+
+# ENV PYTHONDONTWRITEBYTECODE 1
+# ENV PYTHONUNBUFFERED 1
+
+# RUN apt-get update && \
+#     apt-get install -y --no-install-recommends gcc
+
+# RUN python -m venv /opt/venv
+# ENV PATH="/opt/venv/bin:$PATH"
+
+
+
+
+# RUN pip install --upgrade pip
+# # COPY --chown=myuser:myuser . .
+# # RUN pip install torch==1.12.0
+
+# RUN pip install numpy==1.21.6
+
+
+# # COPY requirements.txt .
+# # RUN pip install -r requirements.txt
+
+# # RUN pip install flair==0.3.2
+# # RUN pip install spacy==2.0.11
+
+# # RUN pip install \
+# #     dateparser==0.7.0 \
+# #     pymorphy2==0.8 \
+# #     yargy==0.11.0 \
+# #     natasha==0.10.0 \
+# #     nltk==3.2.1 \
+# #     yake==0.3.7 \
+# #     python-dateutil==2.7.5
+
+# # RUN python -m nltk.downloader stopwords && python -m nltk.downloader punkt  && \
+# #     python -m nltk.downloader averaged_perceptron_tagger
+
+# # RUN python -c 'import flair; _ = flair.models.SequenceTagger.load("ner-fast")'
+
+# # CMD mkdir src
+# # WORKDIR src
+
+# # final stage
+# # FROM python:3.9-slim
+
+# # COPY --from=builder /opt/venv /opt/venv
+
+# # WORKDIR /app
+
+# # ENV PATH="/opt/venv/bin:$PATH"
+
+# --------------------------------
+# FROM  ubuntu:22.04
+
+# RUN useradd -ms /bin/bash newuser
+
+# USER newuser_v0
+# WORKDIR /home/newuser_v0
+
+# # RUN apt-get update && \
+# #     apt-get install -y --no-install-recommends gcc
+
+# # RUN pip install --upgrade pip
+
+# # RUN pip install numpy==1.21.6
+
+# RUN groupadd -g 2000 go \
+# && useradd -m -u 2001 -g go go
+# USER go
+
+# RUN addgroup -g 1001 -S appuser && adduser -u 1001 -S appuser  -G appuser 
+# # ---------------------------------------Works till 
+
+# FROM ubuntu:latest
+
+
+# # RUN apt-get update -y && \
+# # WORKDIR /apptest
+# WORKDIR /myapp
+
+# COPY requirements.txt requirements.txt
+# RUN apt-get update && apt install nano  && apt-get install -y python3 python3-pip
+# RUN pip install --upgrade pip
+# # RUN apt-get update && apt-get install -y python3 python3-pip: WARNING: Running pip as the 'root' user can result 
+# # RUN pip install numpy==1.21.6
+# RUN pip install -r requirements.txt
+
+
+
+# # EXPOSE 8086
+
+# # CMD ["python", "app.py"]
+# # CMD python app.py
+
+# ---------------------------------------
+
+# FROM ubuntu:latest
+
+# WORKDIR /myapp
+
+# COPY requirements.txt requirements.txt
+# RUN apt-get update && apt install nano  && apt-get install -y python3 python3-pip
+# RUN pip install --upgrade pip
+
+# RUN pip install -r requirements.txt
+# ---------------------------------------
+
+# FROM python:3.8.3-alpine
+
+# RUN pip install --upgrade pip
+
+# RUN adduser -D myuser
+# USER myuser
+# WORKDIR /home/myuser
+
+# COPY --chown=myuser:myuser requirements.txt requirements.txt
+# RUN pip install --user -r requirements.txt
+
+# ENV PATH="/home/user/.local/bin:${PATH}"
+
+# COPY --chown=myuser:myuser . .
+
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# ---------------------------------------
+
+#---creating container with Dockerfile that creates custome user as default entery on Ubuntu 
+FROM ubuntu:latest
+
+RUN apt-get update
+RUN apt-get install sudo
+RUN apt-get install nano
+RUN useradd -ms /bin/bash newuser
+RUN echo "newuser ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
+# RUN sh -c 'echo "newuser ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/newuser' && sudo chmod 440 /etc/sudoers.d/newuser
+
+
+
+# # # RUN usermod -aG sudo newuser
+
+USER newuser
+WORKDIR /home/newuser
+
+RUN sudo apt-get update && sudo apt install nano  && sudo apt-get install -y python3 python3-pip
+# RUN sudo pip install --upgrade pip
+
+COPY requirements.txt requirements.txt
+RUN sudo pip install -r requirements.txt
+
+
+# # ---To create image and container from image, run those commands:
+# # sudo docker build -t ubuntu-user -f ./Dockerfile.user .
+# # sudo docker run -td --name ubuntu_container ubuntu-user 
+# # sudo docker exec -it ubuntu_container bash  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# RUN su newuser
+# RUN adduser -D myuser
+# USER myuser --disabled-password --disabled-login
+
+# WORKDIR /home/myuser
+
+# RUN apt install nano  && apt-get install -y python3 python3-pip
+# RUN pip install --upgrade pip
+
+# COPY requirements.txt requirements.txt
+
+# # COPY --chown=myuser:myuser requirements.txt requirements.txt
+# # RUN pip install --user -r requirements.txt
+
+# # ENV PATH="/home/user/.local/bin:${PATH}"
+
+# # COPY --chown=myuser:myuser . .
+
+# # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+
